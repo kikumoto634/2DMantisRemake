@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0e7a730cbf3716640a0d9300706e98d3
+guid: 4c40a5781d74e1b4d88e0998133b05b2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 594225818804048354
-    second: Test_Tile_0
+      213: -7040414200905858319
+    second: Test_Tile_2_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -73,7 +73,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -85,7 +85,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -94,7 +94,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Test_Tile_0
+      name: Test_Tile_2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -108,8 +108,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e15e2edb3d1f3800800000000000000
-      internalID: 594225818804048354
+      spriteID: 1f20463069c6b4e90800000000000000
+      internalID: -7040414200905858319
       vertices: []
       indices: 
       edges: []
