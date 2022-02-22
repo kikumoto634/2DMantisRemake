@@ -100628,12 +100628,12 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 10
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9238477, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -100743,7 +100743,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10
   field of view: 60
   orthographic: 1
   orthographic size: 10
@@ -109452,7 +109452,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955642732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalPosition: {x: 18.14, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -109488,7 +109488,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1955642732}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 49d03d05a8dad0b45bf67de6325eb87e, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -109507,5 +109507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8867479be6b8ecc4294a0cf160df3fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _NormalSpeed: 20
+  CurrentEnemyType: 1
+  _NormalSpeed: 5
+  _TracSpeed: 6.5
   _rb: {fileID: 1955642735}
+  _player: {fileID: 181998299}
