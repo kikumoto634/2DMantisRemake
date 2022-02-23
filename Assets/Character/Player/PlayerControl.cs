@@ -34,10 +34,15 @@ public class PlayerControl : MonoBehaviour
         YSpeed = Input.GetAxis("Vertical");
 
         if (Input.GetKeyDown(KeyCode.Return))   IsAttack = true;
-        else    IsAttack = false;
+        
 
-
+        //アニメーション処理
         _slashAnim.SetBool("IsAttack", IsAttack);
+        //アニメーション終了判定
+        if (_slashAnim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
+        { 
+            IsAttack = false;
+        }
     }
 
     private void FixedUpdate()
@@ -52,6 +57,4 @@ public class PlayerControl : MonoBehaviour
             transform.rotation = Quaternion.FromToRotation(Vector3.up, moveForward);
         }
     }
-
-
 }
