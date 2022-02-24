@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - DamageArea
+  - Slash
+  - Enemy
   layers:
   - Default
   - TransparentFX

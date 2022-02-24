@@ -13,11 +13,13 @@ public class PlayerControl : MonoBehaviour
 
 
     bool IsAttack = false;
+    bool IsSlash = false;
 
     [Header("コンポーネント")]
     public Rigidbody2D _rb = null;
-    public GameObject _slash = null;
+
     public Animator _slashAnim = null;
+    public Animator _slashAreaAnim = null;
 
 
     private Vector3 cameraForward = default;
@@ -30,14 +32,31 @@ public class PlayerControl : MonoBehaviour
 
     private void LateUpdate()
     {
-        XSpeed = Input.GetAxis("Horizontal");
-        YSpeed = Input.GetAxis("Vertical");
+        if (!IsAttack)
+        {
+            XSpeed = Input.GetAxis("Horizontal");
+            YSpeed = Input.GetAxis("Vertical");
+        }
+        else if (IsAttack)
+        { 
+            XSpeed = 0f;
+            YSpeed = 0f;
+        }
 
-        if (Input.GetKeyDown(KeyCode.Return))   IsAttack = true;
-        
+
+        if(!IsSlash && Input.GetKeyDown(KeyCode.Backspace))
+        {
+            IsSlash = true;
+        }
+        if(IsSlash && Input.GetKeyUp(KeyCode.Backspace))
+        {
+            IsSlash = false;
+        }
+        if(!IsAttack && Input.GetKeyDown(KeyCode.Return))   IsAttack = true;
 
         //アニメーション処理
         _slashAnim.SetBool("IsAttack", IsAttack);
+        _slashAreaAnim.SetBool("IsAttack", IsSlash);
         //アニメーション終了判定
         if (_slashAnim.GetCurrentAnimatorStateInfo(0).IsName("Slash"))
         { 

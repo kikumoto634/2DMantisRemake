@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+
 
 public class Test_EnemyControl : MonoBehaviour
 {
@@ -40,6 +42,11 @@ public class Test_EnemyControl : MonoBehaviour
     private Transform thisTransform = default;
     private Transform playerTransform = default;
 
+
+    bool IsDamage = false;
+    Vector2 SaveDirection = default;
+    float SaveSpeed = 0f;
+
     private void Start()
     {
         switch (CurrentEnemyType)
@@ -71,45 +78,51 @@ public class Test_EnemyControl : MonoBehaviour
     {
         //距離測定
         distance = playerTransform.position - thisTransform.position;
+        //if (!IsDamage)
+        //{
+            switch (CurrentEnemyType)
+            {
+                case EnemyType.Tracking:
 
-        switch (CurrentEnemyType)
-        { 
-            case EnemyType.Tracking:
+                    if (distance.magnitude <= Mathf.Abs(8f))
+                    {
+                        //追跡モード移行
+                        Speed = _TracSpeed;
+                        _rb.velocity = distance.normalized * Speed;
+                    }
+                    else if (distance.magnitude > Mathf.Abs(8f))
+                    {
+                        //速度の再設定
+                        Speed = _NormalSpeed;
+                        _rb.velocity = _rb.velocity.normalized * Speed;
+                    }
 
-                if (distance.magnitude <= Mathf.Abs(8f))
-                {
-                    //追跡モード移行
-                    Speed = _TracSpeed;
-                    _rb.velocity = distance.normalized * Speed;
-                }
-                else if (distance.magnitude > Mathf.Abs(8f))
-                { 
-                    //速度の再設定
-                    Speed = _NormalSpeed;
-                    _rb.velocity = _rb.velocity.normalized * Speed;
-                }
+                    break;
 
-                break;
+                case EnemyType.Firing:
 
-            case EnemyType.Firing:
+                    if (distance.magnitude <= Mathf.Abs(10f))
+                    {
+                        //発射モード
+                        Vector3 diff = (playerTransform.position - thisTransform.position).normalized;
+                        thisTransform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
+                        Speed = 0f;
+                        _rb.velocity = -(_rb.velocity.normalized) * Speed;
+                    }
+                    else if (distance.magnitude > Mathf.Abs(10f))
+                    {
+                        //速度の再設定
+                        Speed = _SlowSpeed;
+                        _rb.velocity = thisTransform.up * Speed;
+                    }
 
-                if(distance.magnitude <= Mathf.Abs(10f))
-                {
-                    //発射モード
-                    Vector3 diff = (playerTransform.position - thisTransform.position).normalized;
-                    thisTransform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
-                    Speed = 0f;
-                    _rb.velocity = -(_rb.velocity.normalized) * Speed;
-                }
-                else if (distance.magnitude > Mathf.Abs(10f))
-                { 
-                    //速度の再設定
-                    Speed = _SlowSpeed;
-                    _rb.velocity = thisTransform.up * Speed;
-                }
-
-                break;
-        }
+                    break;
+            }
+        //}
+        //else if (IsDamage)
+        //{ 
+        //    //StartCoroutine(ResetVelocity());
+        //}
     }
 
 
@@ -119,4 +132,34 @@ public class Test_EnemyControl : MonoBehaviour
         _rb.velocity = _rb.velocity.normalized * Speed;
     }
 
+
+    //private IEnumerator ResetVelocity()
+    //{ 
+    //    Debug.Log("reset");
+
+    //    Speed = 0f;
+
+    //    yield return new WaitForSeconds(1.5f);
+
+    //    Speed = SaveSpeed;
+    //    _rb.velocity = SaveDirection * Speed;
+    //    IsDamage = false;
+    //}
+
+
+    //当たり判定
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Slash"))
+        { 
+            Debug.Log(this.gameObject.name+":ダメージ");
+
+            //SaveDirection = _rb.velocity.normalized;
+            //SaveSpeed = Speed;
+            //IsDamage = true;
+
+            //_rb.AddForce(collision.gameObject.transform.up * 100f, ForceMode2D.Force);
+            Debug.Log(collision.gameObject.name);
+        }
+    }
 }
