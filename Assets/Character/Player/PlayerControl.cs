@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour
     [Header("各種ステータス")]
     public float _NormalSpeed = 6f;
 
-
+    public float _SlashSpeed = 6f;
 
     private float Speed = 0f;
     private float XSpeed = 0f;
@@ -32,6 +32,7 @@ public class PlayerControl : MonoBehaviour
 
     private void LateUpdate()
     {
+
         if (!IsAttack)
         {
             XSpeed = Input.GetAxis("Horizontal");
@@ -47,12 +48,16 @@ public class PlayerControl : MonoBehaviour
         if(!IsSlash && Input.GetKeyDown(KeyCode.Backspace))
         {
             IsSlash = true;
+            Speed /= 2f;
         }
         if(IsSlash && Input.GetKeyUp(KeyCode.Backspace))
         {
+            transform.position = Vector2.MoveTowards(transform.position, transform.position + Vector3.Scale(transform.up, new Vector3(_SlashSpeed, _SlashSpeed, 0)), _SlashSpeed);
+            Speed *= 2f;
             IsSlash = false;
         }
         if(!IsAttack && Input.GetKeyDown(KeyCode.Return))   IsAttack = true;
+
 
         //アニメーション処理
         _slashAnim.SetBool("IsAttack", IsAttack);
