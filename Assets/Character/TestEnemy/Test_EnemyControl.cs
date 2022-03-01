@@ -14,8 +14,8 @@ public class Test_EnemyControl : MonoBehaviour
 
 
     [Header("基礎ステータス")]
-    public float _NormalSpeed = 5f;   //放浪、追跡
-    public float _SlowSpeed = 2.5f;    //発射
+    [SerializeField]private float _NormalSpeed = 5f;   //放浪、追跡
+    [SerializeField]private float _SlowSpeed = 2.5f;    //発射
 
     //速度
     private float Speed = 0f;
@@ -28,15 +28,15 @@ public class Test_EnemyControl : MonoBehaviour
 
 
     [Header("Trackingステータス")]
-    public float _TracSpeed = 8f;
+    [SerializeField]private float _TracSpeed = 8f;
 
     //範囲距離
     private Vector2 distance = default;
 
 
     [Header("コンポーネント")]
-    public Rigidbody2D _rb = null;
-    public GameObject _player = null;
+    [SerializeField]private Rigidbody2D _rb = null;
+    [SerializeField]private GameObject _player = null;
 
     [Header("キャッシュ")]
     private Transform thisTransform = default;
