@@ -19,7 +19,9 @@ public class PlayerControl : MonoBehaviour
     public Rigidbody2D _rb = null;
 
     public Animator _slashAnim = null;
+
     public Animator _slashAreaAnim = null;
+    public BoxCollider2D _slashCollider = null;
 
 
     private Vector3 cameraForward = default;
@@ -30,9 +32,8 @@ public class PlayerControl : MonoBehaviour
         Speed = _NormalSpeed;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-
         if (!IsAttack)
         {
             XSpeed = Input.GetAxis("Horizontal");
@@ -52,12 +53,23 @@ public class PlayerControl : MonoBehaviour
         }
         if(IsSlash && Input.GetKeyUp(KeyCode.Backspace))
         {
+            _slashCollider.enabled = true;
             transform.position = Vector2.MoveTowards(transform.position, transform.position + Vector3.Scale(transform.up, new Vector3(_SlashSpeed, _SlashSpeed, 0)), _SlashSpeed);
             Speed *= 2f;
             IsSlash = false;
         }
         if(!IsAttack && Input.GetKeyDown(KeyCode.Return))   IsAttack = true;
 
+    }
+
+    private void LateUpdate()
+    {
+
+        if(_slashCollider.enabled)  
+        {
+            Debug.Log("Off");
+            _slashCollider.enabled = false;
+        }
 
         //アニメーション処理
         _slashAnim.SetBool("IsAttack", IsAttack);
@@ -81,4 +93,6 @@ public class PlayerControl : MonoBehaviour
             transform.rotation = Quaternion.FromToRotation(Vector3.up, moveForward);
         }
     }
+
+
 }
