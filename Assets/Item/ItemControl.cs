@@ -3,46 +3,52 @@ using DG.Tweening;
 
 public class ItemControl : MonoBehaviour
 {
+    float vx = 0f;
+    float vy = 0f;
+
     //キャラ間の距離
     private Vector2 characterDistance = default;
     bool Iscatch = false;
 
+    float speed = -3.0f;
+
     //コンポーネント
     private GameObject Player = null;
-
-    //キャッシュ
-    private Vector3 ThisPos = default;
+    private AudioSource AS = null;
 
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
 
-        ThisPos = this.transform.position;
+        AS = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        if(!Iscatch)
-        {
-            characterDistance = Player.transform.position - ThisPos;
-        }
-    }
+        characterDistance = Player.transform.position - this.transform.position;
 
-    private void LateUpdate()
-    {
         if(!Iscatch)
         {
             if (characterDistance.magnitude < Mathf.Abs(5f))
             { 
                 Iscatch = true;
-                Debug.Log("キャッチ");
+                AS.Play();
             }
         }
         else if (Iscatch)
-        { 
-            //transform.position = Vector2.MoveTowards(this.transform.position, Player.transform.position, 0.1f);
+        {
+            Vector2 dir = (characterDistance).normalized;
+            // その方向へ指定した量で進む
+            vx = dir.x * speed;
+            vy = dir.y * speed;
+            this.transform.Translate(vx / 50, vy / 50, 0f);
 
-            transform.DOMove(Player.transform.position, 2f).SetEase(Ease.InBack);
+            speed += 0.1f;
+
+            if (characterDistance.magnitude < Mathf.Abs(0.5f))
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 }
