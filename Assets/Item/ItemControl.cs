@@ -1,5 +1,5 @@
 using UnityEngine;
-using DG.Tweening;
+using System.Collections;
 
 public class ItemControl : MonoBehaviour
 {
@@ -13,12 +13,16 @@ public class ItemControl : MonoBehaviour
     float speed = -5.0f;
 
 
-    [Header("生成範囲A")]
-    [SerializeField] private Transform _rangeA = default;
-    [Header("生成範囲B")]
-    [SerializeField] private Transform _rangeB = default;
+    [System.Serializable]
+    public enum Item
+    {
+        Area,
+        Drop,
+    }
+    public Item item = Item.Area;
 
-    bool IsCreate = false;
+    public AreaItem itemArea = new AreaItem(default, default, false);
+
 
 
     //コンポーネント
@@ -30,6 +34,9 @@ public class ItemControl : MonoBehaviour
 
     private void Start()
     {
+        itemArea._rangeA = GameObject.FindGameObjectWithTag("RangeA").transform;
+        itemArea._rangeB = GameObject.FindGameObjectWithTag("RangeB").transform;
+
         Player = GameObject.FindGameObjectWithTag("Player");
         PlayerControl = Player.GetComponent<PlayerControl>();
 
@@ -38,51 +45,70 @@ public class ItemControl : MonoBehaviour
 
     private void Update()
     {
-        if (!IsCreate)
+        switch(item)
         {
-            characterDistance = Player.transform.position - this.transform.position;
+            case Item.Area:
 
-            if (!Iscatch)
-            {
-                if(characterDistance.magnitude >= Mathf.Abs(5f))
+                if (!itemArea.IsCreate)
                 {
-                    return ;
+                    ItemCollect();
+                }
+                else if (itemArea.IsCreate)
+                { 
+                    ItemCreate();
                 }
 
-                Iscatch = true;
-                AS.Play();
-
-            }
-            else if (Iscatch)
-            {
-                Vector2 dir = (characterDistance).normalized;
-                // その方向へ指定した量で進む
-                vx = dir.x * speed;
-                vy = dir.y * speed;
-                this.transform.Translate(vx / 50, vy / 50, 0f);
-
-                speed += 0.5f;
+                break;
 
 
-                if(characterDistance.magnitude >= Mathf.Abs(0.5f))
-                {
-                    return;
-                }
+            case Item.Drop:
 
-                Iscatch = false;
-
-                int i = PlayerControl.Item + 1; //  取得
-                PlayerControl.Item = i;    //参照
-
-                Debug.Log(PlayerControl.Item);
-
-                IsCreate = true;
-
-            }
+                break;
         }
-        else if (IsCreate)
-        { 
-            ItemCreate();
+    }
+
+
+    //アイテム回収
+    void ItemCollect()
+    { 
+        characterDistance = Player.transform.position - this.transform.position;
+
+        if (!Iscatch)
+        {
+            if(characterDistance.magnitude >= Mathf.Abs(5f))
+            {
+                return ;
+            }
+
+            Iscatch = true;
+            AS.Play();
+
+        }
+        else if (Iscatch)
+        {
+            Vector2 dir = (characterDistance).normalized;
+            // その方向へ指定した量で進む
+            vx = dir.x * speed;
+            vy = dir.y * speed;
+            this.transform.Translate(vx / 50, vy / 50, 0f);
+
+            speed += 0.5f;
+
+
+            if(characterDistance.magnitude >= Mathf.Abs(0.5f))
+            {
+                return;
+            }
+
+            Iscatch = false;
+
+            int i = PlayerControl.Item + 1; //  取得
+            PlayerControl.Item = i;    //参照
+
+            Debug.Log(PlayerControl.Item);
+
+            itemArea.IsCreate = true;
+
         }
     }
 
@@ -90,12 +116,35 @@ public class ItemControl : MonoBehaviour
     //Random生成
     void ItemCreate()
     {
-        float x = Random.Range(_rangeA.position.x, _rangeB.position.x);
-        float y = Random.Range(_rangeA.position.y, _rangeB.position.y);
+        float x = Random.Range(itemArea._rangeA.position.x, itemArea._rangeB.position.x);
+        float y = Random.Range(itemArea._rangeA.position.y, itemArea._rangeB.position.y);
 
         this.transform.position = new Vector2(x, y);
-        IsCreate = false;
-        //this.gameObject.SetActive(true);
+        itemArea.IsCreate = false;
     }
 
 }
+
+/*エリア接地*/
+[System.Serializable]
+public class AreaItem
+{
+    [Header("生成範囲A")]
+    public Transform _rangeA = default;
+    [Header("生成範囲B")]
+    public Transform _rangeB = default;
+
+    public bool IsCreate = false;
+
+    public AreaItem(Transform RangeA, Transform RangeB, bool IsCreate)
+    { 
+        this._rangeA = RangeA;
+        this._rangeB = RangeB;
+
+        this.IsCreate = IsCreate;
+    }
+}
+
+//7日(月)　14時
+
+//三光クリニック

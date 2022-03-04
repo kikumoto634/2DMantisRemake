@@ -8,6 +8,8 @@ TagManager:
   - Slash
   - Enemy
   - Item
+  - RangeA
+  - RangeB
   layers:
   - Default
   - TransparentFX
