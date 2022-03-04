@@ -7,15 +7,26 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField]private float _SlashSpeed = 6f;
 
+    //速度
     private float Speed = 0f;
     private float XSpeed = 0f;
     private float YSpeed = 0f;
 
-
+    //攻撃
     bool IsAttack = false;
 
+    //居合
     bool IsSlash = false;
     bool IsGo = false;
+
+    //アイテム獲得仮
+    private int item = 0;
+    public int Item//プロパティ
+    {
+        get { return item; }    //呼び出し側の参照
+        set { item = value; }   //反映
+    }
+
 
     [Header("コンポーネント")]
     private Rigidbody2D _rb = null;
@@ -34,14 +45,29 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
+        Component_Cash();
+
+        Variable_Settling();
+    }
+
+    private void Component_Cash()
+    { 
         _rb = gameObject.GetComponent<Rigidbody2D>();
         _bc = gameObject.GetComponent<BoxCollider2D>();
-
+    }
+    private void Variable_Settling()
+    { 
         Speed = _NormalSpeed;
     }
 
+
     private void Update()
     {
+        Input_Update();
+    }
+
+    private void Input_Update()
+    { 
         /*off:通常、on:居合移動時の操作不能*/
         if(!IsGo)
         {
@@ -82,6 +108,7 @@ public class PlayerControl : MonoBehaviour
         { 
             transform.position = Vector2.MoveTowards(transform.position, SavePos, 64f * Time.deltaTime);
 
+            //指定位置まで移動後
             if (transform.position == SavePos)
             { 
                 SavePos = default;
@@ -95,9 +122,14 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
     private void LateUpdate()
     {
+        Animation_LateUpdate();
+    }
 
+    private void Animation_LateUpdate()
+    { 
         //アニメーション処理
         _slashAnim.SetBool("IsAttack", IsAttack);
         _slashAreaAnim.SetBool("IsAttack", IsSlash);
@@ -108,8 +140,14 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
     private void FixedUpdate()
     {
+        CharacterMove();
+    }
+
+    private void CharacterMove()
+    { 
         //カメラから正面方向を取得
         cameraForward = Vector3.Scale(Camera.main.transform.up, new Vector3(1, 1, 0)).normalized;
         //キャラの前方方向を取得
@@ -122,6 +160,4 @@ public class PlayerControl : MonoBehaviour
             transform.rotation = Quaternion.FromToRotation(Vector3.up, moveForward);
         }
     }
-
-
 }
