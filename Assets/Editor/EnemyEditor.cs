@@ -10,10 +10,10 @@ public class EnemyEditor : Editor
         EnemyControl obj = target as EnemyControl;
 
         //‹¤’Ê
-        obj.type = (EnemyControl.EnemyType)EditorGUILayout.EnumPopup("Type", obj.type);
         obj.WaitTime = EditorGUILayout.FloatField("WaitTime", obj.WaitTime);
         obj._rb = (Rigidbody2D)EditorGUILayout.ObjectField("Rigidbody", obj._rb, typeof(Rigidbody2D), true);
         obj._player = (GameObject)EditorGUILayout.ObjectField("Player", obj._player, typeof(GameObject), true);
+        obj.type = (EnemyControl.EnemyType)EditorGUILayout.EnumPopup("Type", obj.type);
 
 
         EditorGUI.indentLevel++;

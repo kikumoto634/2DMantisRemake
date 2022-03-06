@@ -42,15 +42,9 @@ public class EnemyControl : MonoBehaviour
 
     //方向保存
     Vector2 SaveDir = default;
-    Vector3 NockBack = default;
-
-    //コンポーネント
-    private SpriteRenderer Sr =null;
 
     private void Start()
     {
-        //コンポーネント取得
-        Sr = this.GetComponent<SpriteRenderer>();
 
         //typeごとの設定
         switch(type)
@@ -103,15 +97,11 @@ public class EnemyControl : MonoBehaviour
 
                     break;
             }
-
-            Debug.Log(SaveDir);
-
             //ダメージ判定後処理
-            if(SaveDir == default) { return; }
-
-            Debug.Log("再スタート");
-            _rb.velocity = SaveDir * AllSpeed;
-            SaveDir = default;
+            if(SaveDir != default){
+                _rb.velocity = SaveDir * AllSpeed;
+                SaveDir = default;
+            }
         }
         //ダメージ
         else if(IsDamage)
@@ -123,13 +113,12 @@ public class EnemyControl : MonoBehaviour
     //ダメージ(待機処理)
     private IEnumerator ResetVelocity()
     {
-        _rb.velocity =  -NockBack * 2f;
+        _rb.velocity = default;
 
         yield return new WaitForSeconds(WaitTime);
 
-        NockBack = default;
-        _rb.velocity = default;
         IsDamage = false;
+        Debug.Log("Reset");
     }
 
 
@@ -145,10 +134,13 @@ public class EnemyControl : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Slash"))
         {
-            if(IsDamage)    {return;}
-            SaveDir = _rb.velocity.normalized;
-            NockBack = (_player.transform.position - this.transform.position).normalized;
-        
+            if(!IsDamage)
+            {
+                SaveDir = _rb.velocity.normalized;
+
+                Debug.Log("Damage");
+                Debug.Log(SaveDir);
+            }
             IsDamage = true;
         }
     }

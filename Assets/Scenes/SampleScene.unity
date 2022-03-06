@@ -110488,20 +110488,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbeab336cc455e4e9db81d994ad1751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   wandering:
-    _normalSpeed: 2
+    _normalSpeed: 1
   tracking:
     _normalSpeed: 0.5
     _trackingSpeed: 3
     _trackingRange: 5
-    _player: {fileID: 181998299}
   firing:
     _normalSpeed: 2
     _serachRange: 8
-    _player: {fileID: 181998299}
-  WaitTime: 1.5
+  WaitTime: 2
   _rb: {fileID: 1955642735}
+  _player: {fileID: 181998299}
 --- !u!1 &1967725261
 GameObject:
   m_ObjectHideFlags: 0
