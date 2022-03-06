@@ -24,7 +24,7 @@ public class EnemyControl : MonoBehaviour
 
     //コンポーネント
     public Rigidbody2D _rb = null;
-
+    public GameObject _player = null;
 
     //private
 
@@ -42,6 +42,7 @@ public class EnemyControl : MonoBehaviour
 
     //方向保存
     Vector2 SaveDir = default;
+    Vector3 NockBack = default;
 
     //コンポーネント
     private SpriteRenderer Sr =null;
@@ -92,20 +93,23 @@ public class EnemyControl : MonoBehaviour
 
                 case EnemyType.Tracking:
 
-                    tracking.Movement(this.transform.position, AllSpeed, _rb);
+                    tracking.Movement(_player.transform.position, this.transform.position, AllSpeed, _rb);
 
                     break;
 
                 case EnemyType.Firing:
 
-                    firing.Movement(this.transform, AllSpeed, _rb);
+                    firing.Movement(_player.transform.position, this.transform, AllSpeed, _rb);
 
                     break;
             }
 
-            //ダメージ判定後処理
-            if(_rb.velocity != default) { return; }
+            Debug.Log(SaveDir);
 
+            //ダメージ判定後処理
+            if(SaveDir == default) { return; }
+
+            Debug.Log("再スタート");
             _rb.velocity = SaveDir * AllSpeed;
             SaveDir = default;
         }
@@ -119,10 +123,12 @@ public class EnemyControl : MonoBehaviour
     //ダメージ(待機処理)
     private IEnumerator ResetVelocity()
     {
-        _rb.velocity = default;
+        _rb.velocity =  -NockBack * 2f;
 
         yield return new WaitForSeconds(WaitTime);
 
+        NockBack = default;
+        _rb.velocity = default;
         IsDamage = false;
     }
 
@@ -139,9 +145,10 @@ public class EnemyControl : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Slash"))
         {
-            if(IsDamage)    return;
+            if(IsDamage)    {return;}
             SaveDir = _rb.velocity.normalized;
-
+            NockBack = (_player.transform.position - this.transform.position).normalized;
+        
             IsDamage = true;
         }
     }
@@ -176,8 +183,6 @@ public class Tracking
     [Header("追跡範囲")]
     public float _trackingRange = 0f;
 
-    [SerializeField] public GameObject _player = null;
-
     private Vector2 distance = default;
 
     public Tracking(float normalSpeed, float trackingSpeed, float trackingRange)
@@ -188,9 +193,9 @@ public class Tracking
     }
 
 
-    public void Movement(Vector3 thispos, float Speed, Rigidbody2D rigidbody2D)
+    public void Movement(Vector3 player, Vector3 thispos, float Speed, Rigidbody2D rigidbody2D)
     {
-        distance = _player.transform.position - thispos;
+        distance = player - thispos;
 
         if(distance.magnitude <= Mathf.Abs(_trackingRange))
         {
@@ -217,8 +222,6 @@ public class Firing
     [Header("索敵範囲")]
     public float _serachRange = 0f;
 
-    [SerializeField]public GameObject _player = null;
-
     private Vector2 distance = default;
 
     public Firing (float normalSpeed, float serachRange)
@@ -227,14 +230,14 @@ public class Firing
         this._serachRange = serachRange;
     }
 
-    public void Movement(Transform thisPos, float Speed, Rigidbody2D rigidbody2D)
+    public void Movement(Vector3 player, Transform thisPos, float Speed, Rigidbody2D rigidbody2D)
     {
-        distance = _player.transform.position - thisPos.position;
+        distance = player - thisPos.position;
 
         if(distance.magnitude <= Mathf.Abs(_serachRange))
         {
             //発射モード
-            Vector3 diff = (_player.transform.position - thisPos.position).normalized;
+            Vector3 diff = (player - thisPos.position).normalized;
             thisPos.rotation = Quaternion.FromToRotation(Vector3.up, diff);
             Speed = 0f;
             rigidbody2D.velocity = -(rigidbody2D.velocity.normalized) * Speed;

@@ -13,6 +13,7 @@ public class EnemyEditor : Editor
         obj.type = (EnemyControl.EnemyType)EditorGUILayout.EnumPopup("Type", obj.type);
         obj.WaitTime = EditorGUILayout.FloatField("WaitTime", obj.WaitTime);
         obj._rb = (Rigidbody2D)EditorGUILayout.ObjectField("Rigidbody", obj._rb, typeof(Rigidbody2D), true);
+        obj._player = (GameObject)EditorGUILayout.ObjectField("Player", obj._player, typeof(GameObject), true);
 
 
         EditorGUI.indentLevel++;
@@ -32,7 +33,7 @@ public class EnemyEditor : Editor
                 obj.tracking._trackingSpeed = EditorGUILayout.FloatField("TrackingSpeed", obj.tracking._trackingSpeed);
                 obj.tracking._trackingRange = EditorGUILayout.FloatField("TrackingRange", obj.tracking._trackingRange);
 
-                obj.tracking._player = (GameObject)EditorGUILayout.ObjectField("Player", obj.tracking._player, typeof(GameObject), true);
+                //obj.tracking._player = (GameObject)EditorGUILayout.ObjectField("Player", obj.tracking._player, typeof(GameObject), true);
 
                 break;
 
@@ -41,7 +42,7 @@ public class EnemyEditor : Editor
                 obj.firing._normalSpeed = EditorGUILayout.FloatField("NormalSpeed", obj.firing._normalSpeed);
                 obj.firing._serachRange = EditorGUILayout.FloatField("TrackingRange", obj.firing._serachRange);
 
-                obj.firing._player = (GameObject)EditorGUILayout.ObjectField("Player", obj.firing._player, typeof(GameObject), true);
+                //obj.firing._player = (GameObject)EditorGUILayout.ObjectField("Player", obj.firing._player, typeof(GameObject), true);
 
                 break;
         }
