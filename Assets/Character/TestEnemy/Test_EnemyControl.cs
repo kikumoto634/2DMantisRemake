@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Test_EnemyControl : MonoBehaviour
 {
-    private enum EnemyType
+    public enum EnemyType
     { 
         Wandering,  //放浪(攻撃無)
         Tracking,   //追跡(近距離)
         Firing      //発射(遠距離)
     };
-    [SerializeField] private EnemyType CurrentEnemyType = EnemyType.Wandering;
+    public EnemyType CurrentEnemyType = EnemyType.Wandering;
 
 
     [Header("基礎ステータス")]
@@ -38,14 +38,11 @@ public class Test_EnemyControl : MonoBehaviour
     [SerializeField]private Rigidbody2D _rb = null;
     [SerializeField]private GameObject _player = null;
 
-    [Header("キャッシュ")]
-    private Transform thisTransform = default;
-    private Transform playerTransform = default;
 
 
-    bool IsDamage = false;
-    Vector2 SaveDirection = default;
-    float SaveSpeed = 0f;
+    //bool IsDamage = false;
+    //Vector2 SaveDirection = default;
+    //float SaveSpeed = 0f;
 
     private void Start()
     {
@@ -62,8 +59,6 @@ public class Test_EnemyControl : MonoBehaviour
                 break;
         }
 
-        thisTransform = this.transform;
-        playerTransform = _player.transform;
 
         //初期移動設定
         XDirection = Random.Range(-1f, 1f);
@@ -77,7 +72,7 @@ public class Test_EnemyControl : MonoBehaviour
     private void LateUpdate()
     {
         //距離測定
-        distance = playerTransform.position - thisTransform.position;
+        distance = _player.transform.position - this.transform.position;
         //if (!IsDamage)
         //{
             switch (CurrentEnemyType)
@@ -104,8 +99,8 @@ public class Test_EnemyControl : MonoBehaviour
                     if (distance.magnitude <= Mathf.Abs(10f))
                     {
                         //発射モード
-                        Vector3 diff = (playerTransform.position - thisTransform.position).normalized;
-                        thisTransform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
+                        Vector3 diff = (_player.transform.position - this.transform.position).normalized;
+                        this.transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
                         Speed = 0f;
                         _rb.velocity = -(_rb.velocity.normalized) * Speed;
                     }
@@ -113,7 +108,7 @@ public class Test_EnemyControl : MonoBehaviour
                     {
                         //速度の再設定
                         Speed = _SlowSpeed;
-                        _rb.velocity = thisTransform.up * Speed;
+                        _rb.velocity = this.transform.up * Speed;
                     }
 
                     break;
@@ -121,7 +116,7 @@ public class Test_EnemyControl : MonoBehaviour
         //}
         //else if (IsDamage)
         //{ 
-        //    //StartCoroutine(ResetVelocity());
+        //    StartCoroutine(ResetVelocity());
         //}
     }
 
@@ -133,18 +128,18 @@ public class Test_EnemyControl : MonoBehaviour
     }
 
 
-    //private IEnumerator ResetVelocity()
-    //{ 
-    //    Debug.Log("reset");
+//private IEnumerator ResetVelocity()
+//{
+//    Debug.Log("reset");
 
-    //    Speed = 0f;
+//    Speed = 0f;
 
-    //    yield return new WaitForSeconds(1.5f);
+//    yield return new WaitForSeconds(1.5f);
 
-    //    Speed = SaveSpeed;
-    //    _rb.velocity = SaveDirection * Speed;
-    //    IsDamage = false;
-    //}
+//    Speed = SaveSpeed;
+//    _rb.velocity = SaveDirection * Speed;
+//    IsDamage = false;
+//}
 
 
     //当たり判定
@@ -158,7 +153,7 @@ public class Test_EnemyControl : MonoBehaviour
             //SaveSpeed = Speed;
             //IsDamage = true;
 
-            //_rb.AddForce(collision.gameObject.transform.up * 100f, ForceMode2D.Force);
+            _rb.AddForce(collision.gameObject.transform.up * 100f, ForceMode2D.Force);
             Debug.Log(collision.gameObject.name);
         }
     }

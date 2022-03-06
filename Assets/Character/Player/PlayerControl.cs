@@ -32,6 +32,8 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody2D _rb = null;
     private BoxCollider2D _bc = null;
 
+
+    //アニメーション
     [SerializeField]private Animator _slashAnim = null;
 
     [SerializeField]private Animator _slashAreaAnim = null;

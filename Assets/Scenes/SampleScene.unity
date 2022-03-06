@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 41281075}
   - component: {fileID: 41281074}
   - component: {fileID: 41281073}
-  - component: {fileID: 41281072}
   m_Layer: 0
   m_Name: Enemy_1 (1)
   m_TagString: Enemy
@@ -143,24 +142,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &41281072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41281071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8867479be6b8ecc4294a0cf160df3fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentEnemyType: 0
-  _NormalSpeed: 1
-  _SlowSpeed: 2.5
-  _TracSpeed: 6.5
-  _rb: {fileID: 41281074}
-  _player: {fileID: 181998299}
 --- !u!58 &41281073
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -110154,7 +110135,6 @@ GameObject:
   - component: {fileID: 1801046656}
   - component: {fileID: 1801046655}
   - component: {fileID: 1801046654}
-  - component: {fileID: 1801046653}
   m_Layer: 0
   m_Name: Enemy_1 (3)
   m_TagString: Untagged
@@ -110162,24 +110142,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1801046653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801046652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8867479be6b8ecc4294a0cf160df3fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentEnemyType: 2
-  _NormalSpeed: 5
-  _SlowSpeed: 2.5
-  _TracSpeed: 6.5
-  _rb: {fileID: 1801046655}
-  _player: {fileID: 181998299}
 --- !u!58 &1801046654
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -110410,7 +110372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1955642733
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -110471,7 +110433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955642732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.14, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -110523,15 +110485,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1955642732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8867479be6b8ecc4294a0cf160df3fa1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fbeab336cc455e4e9db81d994ad1751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyType: 1
-  _NormalSpeed: 20
-  _SlowSpeed: 2.5
-  _TracSpeed: 6.5
+  type: 0
+  wandering:
+    _normalSpeed: 2
+  tracking:
+    _normalSpeed: 0.5
+    _trackingSpeed: 3
+    _trackingRange: 5
+    _player: {fileID: 181998299}
+  firing:
+    _normalSpeed: 2
+    _serachRange: 8
+    _player: {fileID: 181998299}
+  WaitTime: 1.5
   _rb: {fileID: 1955642735}
-  _player: {fileID: 181998299}
 --- !u!1 &1967725261
 GameObject:
   m_ObjectHideFlags: 0
@@ -110678,7 +110648,6 @@ GameObject:
   - component: {fileID: 2037197868}
   - component: {fileID: 2037197867}
   - component: {fileID: 2037197866}
-  - component: {fileID: 2037197865}
   m_Layer: 0
   m_Name: Enemy_1 (2)
   m_TagString: Untagged
@@ -110686,24 +110655,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &2037197865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037197864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8867479be6b8ecc4294a0cf160df3fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentEnemyType: 0
-  _NormalSpeed: 10
-  _SlowSpeed: 2.5
-  _TracSpeed: 6.5
-  _rb: {fileID: 2037197867}
-  _player: {fileID: 181998299}
 --- !u!58 &2037197866
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -110856,6 +110807,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8188986210230747464, guid: 468082a00aea83a4faa3463dc32b5e27, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8188986210230747465, guid: 468082a00aea83a4faa3463dc32b5e27, type: 3}
+      propertyPath: item
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8188986210230747465, guid: 468082a00aea83a4faa3463dc32b5e27, type: 3}
