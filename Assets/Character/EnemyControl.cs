@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyControl : MonoBehaviour
 {
     //public
-
     [System.Serializable]
     public enum EnemyType
     {
@@ -19,12 +18,20 @@ public class EnemyControl : MonoBehaviour
     public Tracking tracking  = new Tracking(0f, 0f, 0f);
     public Firing firing = new Firing(0f, 0f);
 
+    //体力
+    public int _hp = 2;
+
     //方向保存
     public float WaitTime = 1.5f;
+    public float NockSpeed = 1.5f;
 
     //コンポーネント
     public Rigidbody2D _rb = null;
     public GameObject _player = null;
+    public GameObject _effect = null;
+
+    SpriteRenderer Sp = null;
+    CircleCollider2D Cc2D = null;
 
     //private
 
@@ -42,9 +49,19 @@ public class EnemyControl : MonoBehaviour
 
     //方向保存
     Vector2 SaveDir = default;
+    Vector2 NockBckDir = default;
+
+    //クラス
+    RandomCreate randomCreate = default;
 
     private void Start()
     {
+        Sp = this.gameObject.GetComponent<SpriteRenderer>();
+        Cc2D = this.gameObject.GetComponent<CircleCollider2D>();
+
+        randomCreate = new RandomCreate();
+
+        _effect.SetActive(false);
 
         //typeごとの設定
         switch(type)
@@ -64,6 +81,9 @@ public class EnemyControl : MonoBehaviour
             case EnemyType.Firing:
 
                 AllSpeed = firing._normalSpeed;
+
+                firing.Cash(this.transform);
+                StartCoroutine(firing.ShotBullet());
 
                 break;
         }
@@ -97,31 +117,49 @@ public class EnemyControl : MonoBehaviour
 
                     break;
             }
-            //ダメージ判定後処理
-            if(SaveDir != default){
-                _rb.velocity = SaveDir * AllSpeed;
-                SaveDir = default;
-            }
         }
         //ダメージ
-        else if(IsDamage)
+        else if (IsDamage)
         {
-            StartCoroutine(ResetVelocity());
+            _rb.velocity = default;
+            _rb.velocity = -(NockBckDir) * NockSpeed;
+            Invoke(nameof(ResetVelocity), WaitTime);
         }
+
+    }
+
+    private void LateUpdate()
+    {
+        if(_hp > 0) return ;
+        
+        //死亡
+        if(_effect.activeSelf == true) return ;
+        AudioManager.instance.Play("Dead");
+        _effect.SetActive(true);
+        Sp.enabled = false;
+        Cc2D.enabled = false;
+
+        //リスポーン
+        if(Sp.enabled == true) return ;
+        this.gameObject.transform.position = randomCreate.Create();
+        _hp = 2;
+        Sp.enabled = true;
+        Cc2D.enabled = true;
+        _effect.SetActive(false);
     }
 
     //ダメージ(待機処理)
-    private IEnumerator ResetVelocity()
-    {
-        _rb.velocity = default;
-
-        yield return new WaitForSeconds(WaitTime);
+    void ResetVelocity()
+    { 
+        _effect.SetActive(false);
 
         IsDamage = false;
-        Debug.Log("Reset");
+        _rb.velocity = SaveDir * AllSpeed;
+        SaveDir = default;
+        NockBckDir = default;
+
+        CancelInvoke();
     }
-
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -136,12 +174,17 @@ public class EnemyControl : MonoBehaviour
         {
             if(!IsDamage)
             {
-                SaveDir = _rb.velocity.normalized;
+                IsDamage = true;
 
-                Debug.Log("Damage");
-                Debug.Log(SaveDir);
+                AudioManager.instance.Play("Damage");
+
+                _hp = _hp - 1;
+
+                SaveDir = _rb.velocity.normalized;
+                NockBckDir = (_player.transform.position - this.transform.position).normalized;
+
+                _effect.SetActive(true);
             }
-            IsDamage = true;
         }
     }
 }
@@ -216,10 +259,39 @@ public class Firing
 
     private Vector2 distance = default;
 
+
+    //射撃
+    private float shotDelay = 1.0f;
+    private Transform tf = default;
+    private BulletPool pool = null;
+
     public Firing (float normalSpeed, float serachRange)
     {
         this._normalSpeed = normalSpeed;
         this._serachRange = serachRange;
+    }
+
+    public void Cash(Transform thistrans)
+    {
+        tf = thistrans;
+        pool = GameObject.Find("Pool").GetComponent<BulletPool>();
+        //発射
+    }
+
+    public IEnumerator ShotBullet()
+    {
+        while(true)
+        {
+            Shot();
+
+            yield return new WaitForSeconds(shotDelay);
+        }
+    }
+
+    private void Shot()
+    {
+        var bullet = pool.GetBurret();
+        bullet.transform.localPosition = tf.position;
     }
 
     public void Movement(Vector3 player, Transform thisPos, float Speed, Rigidbody2D rigidbody2D)

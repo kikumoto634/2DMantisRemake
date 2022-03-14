@@ -12,7 +12,6 @@ public class ItemControl : MonoBehaviour
 
     float speed = -5.0f;
 
-
     [System.Serializable]
     public enum Item
     {
@@ -21,26 +20,22 @@ public class ItemControl : MonoBehaviour
     }
     public Item item = Item.Area;
 
-    public AreaItem itemArea = new AreaItem(default, default, false);
+    public AreaItem itemArea = default;
 
 
 
     //コンポーネント
     private GameObject Player = null;
     private PlayerControl PlayerControl = null;
-    private AudioSource AS = null;
-
 
 
     private void Start()
     {
-        itemArea._rangeA = GameObject.FindGameObjectWithTag("RangeA").transform;
-        itemArea._rangeB = GameObject.FindGameObjectWithTag("RangeB").transform;
+        itemArea = new AreaItem(false);
 
         Player = GameObject.FindGameObjectWithTag("Player");
         PlayerControl = Player.GetComponent<PlayerControl>();
 
-        AS = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -56,6 +51,7 @@ public class ItemControl : MonoBehaviour
                 else if (itemArea.IsCreate)
                 { 
                     ItemCreate();
+                    speed = -5f;
                 }
 
                 break;
@@ -83,8 +79,7 @@ public class ItemControl : MonoBehaviour
             }
 
             Iscatch = true;
-            AS.Play();
-
+            AudioManager.instance.Play("ItemCatch");
         }
         else if (Iscatch)
         {
@@ -97,6 +92,7 @@ public class ItemControl : MonoBehaviour
             speed += 0.5f;
 
 
+            //接触語判定
             if(characterDistance.magnitude >= Mathf.Abs(0.5f))
             {
                 return;
@@ -119,8 +115,10 @@ public class ItemControl : MonoBehaviour
     //Random生成
     void ItemCreate()
     {
-        float x = Random.Range(itemArea._rangeA.position.x, itemArea._rangeB.position.x);
-        float y = Random.Range(itemArea._rangeA.position.y, itemArea._rangeB.position.y);
+        Vector2 pos = itemArea.randomCreate.Create();
+
+        float x = pos.x;
+        float y = pos.y;
 
         this.transform.position = new Vector2(x, y);
         itemArea.IsCreate = false;
@@ -132,22 +130,15 @@ public class ItemControl : MonoBehaviour
 [System.Serializable]
 public class AreaItem
 {
-    [Header("生成範囲A")]
-    public Transform _rangeA = default;
-    [Header("生成範囲B")]
-    public Transform _rangeB = default;
+    public RandomCreate randomCreate = default;
 
     public bool IsCreate = false;
 
-    public AreaItem(Transform RangeA, Transform RangeB, bool IsCreate)
+    public AreaItem(bool IsCreate)
     { 
-        this._rangeA = RangeA;
-        this._rangeB = RangeB;
+        randomCreate = new RandomCreate();
 
         this.IsCreate = IsCreate;
     }
 }
 
-//7日(月)　14時
-
-//三光クリニック

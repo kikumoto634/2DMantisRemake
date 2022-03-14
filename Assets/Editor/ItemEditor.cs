@@ -19,9 +19,6 @@ public class ItemEditor : Editor
         {
             case ItemControl.Item.Area:
 
-                obj.itemArea._rangeA = (Transform)EditorGUILayout.ObjectField("RangeA", obj.itemArea._rangeA, typeof(Transform), true);
-                obj.itemArea._rangeB = (Transform)EditorGUILayout.ObjectField("RangeB", obj.itemArea._rangeB, typeof(Transform), true);
-
                 obj.itemArea.IsCreate = EditorGUILayout.Toggle("IsCreate", obj.itemArea.IsCreate);
 
                 break;

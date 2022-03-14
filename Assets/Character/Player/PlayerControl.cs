@@ -93,6 +93,8 @@ public class PlayerControl : MonoBehaviour
             }
             else if (IsSlash && Input.GetKeyUp(KeyCode.Backspace))
             {
+                AudioManager.instance.Play("Slash");
+
                 IsGo = true;
                 _bc.isTrigger = true;
                 _slashCollider.enabled = true;
