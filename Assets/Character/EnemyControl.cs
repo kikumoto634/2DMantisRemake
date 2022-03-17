@@ -83,7 +83,6 @@ public class EnemyControl : MonoBehaviour
                 AllSpeed = firing._normalSpeed;
 
                 firing.Cash(this.transform);
-                StartCoroutine(firing.ShotBullet());
 
                 break;
         }
@@ -115,6 +114,11 @@ public class EnemyControl : MonoBehaviour
 
                     firing.Movement(_player.transform.position, this.transform, AllSpeed, _rb);
 
+                    if(firing.ShotIterative())
+                    {
+                        firing.Shot();
+                    }
+
                     break;
             }
         }
@@ -125,7 +129,6 @@ public class EnemyControl : MonoBehaviour
             _rb.velocity = -(NockBckDir) * NockSpeed;
             Invoke(nameof(ResetVelocity), WaitTime);
         }
-
     }
 
     private void LateUpdate()
@@ -259,11 +262,13 @@ public class Firing
 
     private Vector2 distance = default;
 
-
     //射撃
-    private float shotDelay = 1.0f;
+    private float shotDelay = 0.5f;
+    private float reloadTime = 3.0f;
     private Transform tf = default;
     private BulletPool pool = null;
+
+    private float timeElapsed = 0.0f;
 
     public Firing (float normalSpeed, float serachRange)
     {
@@ -275,23 +280,13 @@ public class Firing
     {
         tf = thistrans;
         pool = GameObject.Find("Pool").GetComponent<BulletPool>();
-        //発射
     }
 
-    public IEnumerator ShotBullet()
-    {
-        while(true)
-        {
-            Shot();
-
-            yield return new WaitForSeconds(shotDelay);
-        }
-    }
-
-    private void Shot()
+    public void Shot()
     {
         var bullet = pool.GetBurret();
         bullet.transform.localPosition = tf.position;
+        bullet.transform.localRotation = tf.rotation;
     }
 
     public void Movement(Vector3 player, Transform thisPos, float Speed, Rigidbody2D rigidbody2D)
@@ -305,12 +300,30 @@ public class Firing
             thisPos.rotation = Quaternion.FromToRotation(Vector3.up, diff);
             Speed = 0f;
             rigidbody2D.velocity = -(rigidbody2D.velocity.normalized) * Speed;
+
+            //開始
+            timeElapsed += Time.deltaTime;
         }
         else if(distance.magnitude > Mathf.Abs(_serachRange))
         {
             //速度再設定
             Speed = _normalSpeed;
             rigidbody2D.velocity = thisPos.up * Speed;
+
+            //リセット
+            timeElapsed = 0.0f;
         }
+    }
+
+    //発射間の計測
+    public bool ShotIterative()
+    {
+        if(timeElapsed >= shotDelay)
+        {
+            timeElapsed = 0.0f;
+            return true;
+        }
+
+        return false;
     }
 }

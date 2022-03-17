@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletControl : MonoBehaviour
 {
-    private const int SPEED = 10; //’e‚Ì‘¬‚³
-    private float _screenTop; // ‰æ–Ê‚Ìˆê”Ôã‚ÌyÀ•WB‰æ–ÊŠO‚©‚Ç‚¤‚©‚Ì”»’è‚ÉŽg—p
+    private const int SPEED = 20; //’e‚Ì‘¬‚³
+    //private float _screenTop; // ‰æ–Ê‚Ìˆê”Ôã‚ÌyÀ•WB‰æ–ÊŠO‚©‚Ç‚¤‚©‚Ì”»’è‚ÉŽg—p
  
     private Rigidbody2D _rb;
     private Transform _tf;
@@ -16,23 +14,20 @@ public class BulletControl : MonoBehaviour
         _tf = this.transform;
  
 		// ‰æ–Ê‚Ìˆê”Ôã‚ÌyÀ•W‚ðŽæ“¾
-		_screenTop = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
-		// ’e‚ðã‚ÉˆÚ“®‚³‚¹‚é
-		_rb.velocity = _tf.up.normalized * SPEED;
+		//_screenTop = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
     }
     
     private void Update() 
     {
-		// Rigidbody2D‚Ìsimulated‚ªfalse(’e‚ªŽg‚í‚ê‚Ä‚¢‚È‚¢ó‘Ô)‚Å‚ ‚ê‚Î‰½‚à‚µ‚È‚¢
 		if(_rb.simulated == false)
 			return;
- 
-		// ‚±‚±‚©‚ç‚ÍRigidbody2D‚Ìsimulated‚ªtrue‚Ìê‡(=’e‚ª“®‚¢‚Ä‚¢‚éê‡)
-		// ‰æ–ÊŠO‚É’e‚ªo‚Ä‚¢‚½‚çRigidbody2D‚Ìsimulated‚ðfalse‚É‚µ‚Ä•¨—‰‰ŽZ‚ðŽ~‚ß‚é(’e‚ðƒXƒgƒbƒv‚·‚é)
-		// {‚P‚µ‚Ä‚¢‚é‚Ì‚Í—]—T‚ðŽ‚Á‚Ä‚¢‚é‚¾‚¯‚Å‚·B
-        if(_tf.position.y > _screenTop + 1)
+
+        _rb.velocity = _tf.up.normalized * SPEED;
+
+        if(Mathf.Abs(_tf.position.magnitude) > 50)
         {
-           _rb.simulated = false;
+            _rb.simulated = false;
+            _tf.position = new Vector2(100, 100);
         }
     }
 }

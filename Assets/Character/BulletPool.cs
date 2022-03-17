@@ -20,9 +20,9 @@ public class BulletPool : MonoBehaviour
         _poolObjList = new List<GameObject>();
         for (int i = 0; i < MAXCOUNT; i++) 
 		{
-            var newObj = CreateNewBurret(); // 弾を生成して
+            var newObj = CreateNewBurret(); // 弾を生成
             newObj.GetComponent<Rigidbody2D>().simulated = false; // 物理演算を切って(=未使用にして)
-            _poolObjList.Add(newObj); // リストに保存しておく
+            _poolObjList.Add(newObj); // リストに保存
         }
     }
  
