@@ -117,6 +117,7 @@ public class EnemyControl : MonoBehaviour
                     if(firing.ShotIterative())
                     {
                         firing.Shot();
+                        audioManager("Shot");
                     }
 
                     break;
@@ -137,7 +138,7 @@ public class EnemyControl : MonoBehaviour
         
         //éÄñS
         if(_effect.activeSelf == true) return ;
-        AudioManager.instance.Play("Dead");
+        audioManager("Dead");
         _effect.SetActive(true);
         Sp.enabled = false;
         Cc2D.enabled = false;
@@ -164,6 +165,11 @@ public class EnemyControl : MonoBehaviour
         CancelInvoke();
     }
 
+    void audioManager(string name)
+    {
+        AudioManager.instance.Play(name);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //îΩéÀéûÇÃë¨ìxçƒê›íË
@@ -179,7 +185,7 @@ public class EnemyControl : MonoBehaviour
             {
                 IsDamage = true;
 
-                AudioManager.instance.Play("Damage");
+                audioManager("Damage");
 
                 _hp = _hp - 1;
 
@@ -287,6 +293,8 @@ public class Firing
         var bullet = pool.GetBurret();
         bullet.transform.localPosition = tf.position;
         bullet.transform.localRotation = tf.rotation;
+
+       
     }
 
     public void Movement(Vector3 player, Transform thisPos, float Speed, Rigidbody2D rigidbody2D)
