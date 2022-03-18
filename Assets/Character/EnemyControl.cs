@@ -270,7 +270,6 @@ public class Firing
 
     //ŽËŒ‚
     private float shotDelay = 0.5f;
-    private float reloadTime = 3.0f;
     private Transform tf = default;
     private BulletPool pool = null;
 
@@ -293,8 +292,6 @@ public class Firing
         var bullet = pool.GetBurret();
         bullet.transform.localPosition = tf.position;
         bullet.transform.localRotation = tf.rotation;
-
-       
     }
 
     public void Movement(Vector3 player, Transform thisPos, float Speed, Rigidbody2D rigidbody2D)
