@@ -10,6 +10,7 @@ TagManager:
   - Item
   - RangeA
   - RangeB
+  - RadarTarget
   layers:
   - Default
   - TransparentFX
