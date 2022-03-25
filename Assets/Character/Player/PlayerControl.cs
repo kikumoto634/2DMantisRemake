@@ -27,6 +27,10 @@ public class PlayerControl : MonoBehaviour
         set { item = value; }   //反映
     }
 
+    //体力
+    public int Maxhp = 2;
+    public int hp =  0;
+
 
     [Header("コンポーネント")]
     private Rigidbody2D _rb = null;
@@ -47,6 +51,8 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
+        hp = Maxhp;
+
         Component_Cash();
 
         Variable_Settling();
@@ -66,6 +72,12 @@ public class PlayerControl : MonoBehaviour
     private void Update()
     {
         Input_Update();
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            hp -= 1;
+            Debug.Log("hp : "+hp+" / "+Maxhp);
+        }
     }
 
     private void Input_Update()

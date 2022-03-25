@@ -98,6 +98,7 @@ public class ItemControl : MonoBehaviour
                 return;
             }
 
+            //Šl“¾
             Iscatch = false;
 
             int i = PlayerControl.Item + 1; //  Žæ“¾

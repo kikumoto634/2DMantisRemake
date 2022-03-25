@@ -31,8 +31,8 @@ public class RadarControl : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("総数(敵)："+EnemyList.Count);
-        Debug.Log("総数(策)："+TargetList.Count);
+        //Debug.Log("総数(敵)："+EnemyList.Count);
+        //Debug.Log("総数(策)："+TargetList.Count);
 
     
         for(int i = 0; i < EnemyList.Count; i++)
@@ -82,7 +82,7 @@ public class RadarControl : MonoBehaviour
         var pos = new Vector2(0, 0);
         var newObj = Instantiate(Prefab2, pos, Quaternion.identity);
         newObj.name = Prefab2.name + (TargetList.Count + 1);
-        newObj.transform.parent = RadarCenter.transform;
+        newObj.transform.SetParent(RadarCenter.transform);
         return newObj;
     }
 
