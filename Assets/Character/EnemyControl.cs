@@ -27,7 +27,7 @@ public class EnemyControl : MonoBehaviour
 
     //コンポーネント
     public Rigidbody2D _rb = null;
-    public GameObject _player = null;
+    private GameObject player = null;
     public GameObject _effect = null;
 
     SpriteRenderer Sp = null;
@@ -56,6 +56,8 @@ public class EnemyControl : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         Sp = this.gameObject.GetComponent<SpriteRenderer>();
         Cc2D = this.gameObject.GetComponent<CircleCollider2D>();
 
@@ -106,13 +108,13 @@ public class EnemyControl : MonoBehaviour
 
                 case EnemyType.Tracking:
 
-                    tracking.Movement(_player.transform.position, this.transform.position, AllSpeed, _rb);
+                    tracking.Movement(player.transform.position, this.transform.position, AllSpeed, _rb);
 
                     break;
 
                 case EnemyType.Firing:
 
-                    firing.Movement(_player.transform.position, this.transform, AllSpeed, _rb);
+                    firing.Movement(player.transform.position, this.transform, AllSpeed, _rb);
 
                     if(firing.ShotIterative())
                     {
@@ -190,7 +192,7 @@ public class EnemyControl : MonoBehaviour
                 _hp = _hp - 1;
 
                 SaveDir = _rb.velocity.normalized;
-                NockBckDir = (_player.transform.position - this.transform.position).normalized;
+                NockBckDir = (player.transform.position - this.transform.position).normalized;
 
                 _effect.SetActive(true);
             }

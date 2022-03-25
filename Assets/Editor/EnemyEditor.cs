@@ -18,7 +18,6 @@ public class EnemyEditor : Editor
         EditorGUILayout.Space();
 
         obj._rb = (Rigidbody2D)EditorGUILayout.ObjectField("Rigidbody", obj._rb, typeof(Rigidbody2D), true);
-        obj._player = (GameObject)EditorGUILayout.ObjectField("Player", obj._player, typeof(GameObject), true);
         obj._effect = (GameObject)EditorGUILayout.ObjectField("Effect", obj._effect, typeof(GameObject), true);
         EditorGUILayout.Space();
 

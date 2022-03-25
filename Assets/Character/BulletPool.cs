@@ -9,8 +9,12 @@ public class BulletPool : MonoBehaviour
 	private List<GameObject> _poolObjList; // 生成した弾用のリスト。このリストの中から未使用のものを探したりする
 	private const int MAXCOUNT = 10; // 最初に生成する弾の数 
  
+    private GameObject House = null;
+
 	void Awake()
 	{
+        House = GameObject.FindGameObjectWithTag("BulletHouse");
+
 		CreatePool();
 	}
  
@@ -54,7 +58,8 @@ public class BulletPool : MonoBehaviour
 		var pos = new Vector2(100,100); // 画面外であればどこでもOK
         var newObj = Instantiate(_poolObj, pos, Quaternion.identity); // 弾を生成しておいて
         newObj.name = _poolObj.name + (_poolObjList.Count + 1); // 名前を連番でつけてから
- 
+        newObj.transform.parent = House.transform;
+
         return newObj; // 返す
     }
 }

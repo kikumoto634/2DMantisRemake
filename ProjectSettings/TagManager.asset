@@ -11,6 +11,8 @@ TagManager:
   - RangeA
   - RangeB
   - RadarTarget
+  - EnemyHouse
+  - BulletHouse
   layers:
   - Default
   - TransparentFX
