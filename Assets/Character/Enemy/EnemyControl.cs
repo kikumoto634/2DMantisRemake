@@ -103,6 +103,8 @@ public class EnemyControl : MonoBehaviour
     {
         if(!IsDamage)
         {
+            RotationChange(this.transform, _rb);
+
             switch(type)
             {
 
@@ -143,14 +145,14 @@ public class EnemyControl : MonoBehaviour
         audioManager("Dead");
         _effect.SetActive(true);
         Sp.enabled = false;
-        Cc2D.enabled = false;
+        Cc2D.isTrigger = true;
 
         //ÉäÉXÉ|Å[Éì
         if(Sp.enabled == true) return ;
         this.gameObject.transform.position = randomCreate.Create();
         _hp = 2;
         Sp.enabled = true;
-        Cc2D.enabled = true;
+        Cc2D.isTrigger = false;
         _effect.SetActive(false);
     }
 
@@ -170,6 +172,11 @@ public class EnemyControl : MonoBehaviour
     void audioManager(string name)
     {
         AudioManager.instance.Play(name);
+    }
+
+    void RotationChange(Transform thisPos, Rigidbody2D rigidbody2D)
+    {
+        thisPos.rotation = Quaternion.FromToRotation(Vector3.up, rigidbody2D.velocity.normalized);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

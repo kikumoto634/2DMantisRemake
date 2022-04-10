@@ -47,10 +47,10 @@ public class RadarControl : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            CreateObj();
-        }
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    CreateObj();
+        //}
     }
 
 

@@ -104,8 +104,8 @@ public class ItemControl : MonoBehaviour
             int i = PlayerControl.Item + 1; //  取得
             PlayerControl.Item = i;    //参照
 
-            Debug.Log(PlayerControl.Item);      //獲得アイテム数
-            Debug.Log(item);    //名前
+            //Debug.Log(PlayerControl.Item);      //獲得アイテム数
+            //Debug.Log(item);    //名前
 
             itemArea.IsCreate = true;
 
