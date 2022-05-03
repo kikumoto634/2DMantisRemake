@@ -32,6 +32,7 @@ public class EnemyEditor : Editor
             case EnemyControl.EnemyType.Wandering:
 
                 obj.wandering._normalSpeed = EditorGUILayout.FloatField("NormalSpeed", obj.wandering._normalSpeed);
+                obj.wandering._getExp = EditorGUILayout.IntField("GetExp", obj.wandering._getExp);
 
                 break;
 
@@ -40,6 +41,7 @@ public class EnemyEditor : Editor
                 obj.tracking._normalSpeed = EditorGUILayout.FloatField("NormalSpeed", obj.tracking._normalSpeed);
                 obj.tracking._trackingSpeed = EditorGUILayout.FloatField("TrackingSpeed", obj.tracking._trackingSpeed);
                 obj.tracking._trackingRange = EditorGUILayout.FloatField("TrackingRange", obj.tracking._trackingRange);
+                obj.tracking._getExp = EditorGUILayout.IntField("GetExp", obj.tracking._getExp);
 
                 //obj.tracking._player = (GameObject)EditorGUILayout.ObjectField("Player", obj.tracking._player, typeof(GameObject), true);
 
@@ -49,6 +51,7 @@ public class EnemyEditor : Editor
 
                 obj.firing._normalSpeed = EditorGUILayout.FloatField("NormalSpeed", obj.firing._normalSpeed);
                 obj.firing._serachRange = EditorGUILayout.FloatField("TrackingRange", obj.firing._serachRange);
+                obj.firing._getExp = EditorGUILayout.IntField("GetExp", obj.firing._getExp);
 
                 //obj.firing._player = (GameObject)EditorGUILayout.ObjectField("Player", obj.firing._player, typeof(GameObject), true);
 

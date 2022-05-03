@@ -152,9 +152,21 @@ public class EnemyControl : MonoBehaviour
         _effect.SetActive(true);
         Sp.enabled = false;
         Cc2D.isTrigger = true;
+        //経験値
+        switch(type)
+        {
+            case EnemyType.Wandering:
+                expControl.SetAddExp(wandering._getExp);
+                break;
 
-        Debug.Log(name + "死亡");
-        expControl.SetAddExp(2);
+            case EnemyType.Tracking:
+                expControl.SetAddExp(tracking._getExp);
+                break;
+
+            case EnemyType.Firing:
+                expControl.SetAddExp(firing._getExp);
+                break;
+        }
 
         //リスポーン
         if(Sp.enabled == true) return ;
@@ -225,6 +237,8 @@ public class Wandering
     [Header("基礎速度")]
     public float _normalSpeed = 0f;
 
+    public int _getExp = 2;
+
     public Wandering(float normalSpeed)
     {
         this._normalSpeed = normalSpeed;
@@ -244,6 +258,8 @@ public class Tracking
 
     [Header("追跡範囲")]
     public float _trackingRange = 0f;
+
+    public int _getExp = 2;
 
     private Vector2 distance = default;
 
@@ -283,6 +299,8 @@ public class Firing
 
     [Header("索敵範囲")]
     public float _serachRange = 0f;
+
+    public int _getExp = 2;
 
     private Vector2 distance = default;
 

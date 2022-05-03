@@ -5003,13 +5003,16 @@ MonoBehaviour:
   type: 0
   wandering:
     _normalSpeed: 3
+    _getExp: 2
   tracking:
     _normalSpeed: 0
     _trackingSpeed: 0
     _trackingRange: 0
+    _getExp: 2
   firing:
     _normalSpeed: 0
     _serachRange: 0
+    _getExp: 2
   _hp: 2
   WaitTime: 1.5
   NockSpeed: 1.5
