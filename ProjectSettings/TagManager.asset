@@ -13,6 +13,7 @@ TagManager:
   - RadarTarget
   - EnemyHouse
   - BulletHouse
+  - Exp
   layers:
   - Default
   - TransparentFX

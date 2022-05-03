@@ -30,6 +30,9 @@ public class EnemyControl : MonoBehaviour
     private GameObject player = null;
     public GameObject _effect = null;
 
+    private GameObject expUI = null;
+    private ExpControl expControl = null;
+
     SpriteRenderer Sp = null;
     CircleCollider2D Cc2D = null;
 
@@ -60,6 +63,9 @@ public class EnemyControl : MonoBehaviour
 
         Sp = this.gameObject.GetComponent<SpriteRenderer>();
         Cc2D = this.gameObject.GetComponent<CircleCollider2D>();
+
+        expUI = GameObject.FindGameObjectWithTag("Exp");
+        expControl = expUI.GetComponent<ExpControl>();
 
         randomCreate = new RandomCreate();
 
@@ -146,6 +152,9 @@ public class EnemyControl : MonoBehaviour
         _effect.SetActive(true);
         Sp.enabled = false;
         Cc2D.isTrigger = true;
+
+        Debug.Log(name + "éÄñS");
+        expControl.SetAddExp(2);
 
         //ÉäÉXÉ|Å[Éì
         if(Sp.enabled == true) return ;
