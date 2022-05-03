@@ -93,8 +93,8 @@ public class PlayerControl : MonoBehaviour
             }
             else if (IsAttack)
             { 
-                XSpeed = 0f;
-                YSpeed = 0f;
+                XSpeed = Input.GetAxis("Horizontal")/5;
+                YSpeed = Input.GetAxis("Vertical")/5;
             }
 
             //çUåÇãèçá
